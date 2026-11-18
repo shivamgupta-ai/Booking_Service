@@ -11,6 +11,7 @@ router.get('/info', (req, res) => {
 });
 
 router.post('/bookings', bookingController.createBooking);
+router.get('/bookings/:id', bookingController.getBooking);
 router.post('/publish', bookingController.sendMessageToQueue);
 
 module.exports = router;

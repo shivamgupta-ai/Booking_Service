@@ -7,6 +7,18 @@ const { sendBasicEmail, sendMessageToQueue } = require('../utils/helper');
 
 class BookingService {
 
+    async getBooking(bookingId) {
+        try {
+            const booking = await bookingRepository.getBooking(bookingId);
+            return booking;
+        } catch (error) {
+            throw new ServiceError(
+                error.message || 'Something went wrong in the service layer',
+                error.explanation || 'Service layer error'
+            );
+        }
+    }
+
     async createBooking(data) {
         try {
             const flightId = data.flightId;
@@ -58,7 +70,10 @@ class BookingService {
             if (error.name == 'SequelizeValidationError' || error.name == 'RepositoryError') {
                 throw error;
             }
-            throw new ServiceError(error);
+            throw new ServiceError(
+                error.message || 'Something went wrong in the service layer',
+                error.explanation || 'Service layer error'
+            );
         }
     }
 }
